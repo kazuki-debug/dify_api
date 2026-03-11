@@ -19,3 +19,8 @@ class DocumentCreate(BaseModel):
     title: str
     content: str
 
+class DocumentResponse(DocumentCreate):
+    id: int
+    
+    class config:
+        from_attributes = True
