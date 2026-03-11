@@ -27,7 +27,7 @@ async def create_log(
 async def get_log(id :int, db: Session = Depends(database.get_db)):
     db_log = db.get(Searchlog, id)
     if db_log is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたログは見つかりません")
     return db_log
 
 @router.get("/", response_model=list[LogResponse])

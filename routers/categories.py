@@ -27,7 +27,7 @@ async def create_category(
 async def get_category(id :int, db: Session = Depends(database.get_db)):
     db_category = db.get(Category, id)
     if db_category is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたカテゴリは見つかりません")
     return db_category
 
 @router.get("/", response_model=list[CategoryResponse])
@@ -45,7 +45,7 @@ async def update_category(
 ):
     db_category = db.get(Category, category_id)
     if db_category is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたカテゴリは見つかりません")
 
     db_category.name = category.name
 
@@ -62,7 +62,7 @@ async def delete_category(
     ):
     db_category = db.get(Category, category_id)
     if db_category is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたカテゴリは見つかりません")
 
     db.delete(db_category)
 

@@ -26,7 +26,7 @@ async def create_category(
 async def get_document(id :int, db: Session = Depends(database.get_db)):
     db_document = db.get(Document, id)
     if db_document is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたドキュメントは見つかりません")
     return db_document
 
 @router.get("/", response_model=list[DocumentResponse])
@@ -44,7 +44,7 @@ async def update_document(
 ):
     db_document = db.get(Document, document_id)
     if db_document is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたドキュメントは見つかりません")
 
     db_document.category_id = document.category_id
     db_document.title = document.title
@@ -63,7 +63,7 @@ async def delete_document(
     ):
     db_document = db.get(Document, document_id)
     if db_document is None:
-        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+        raise HTTPException(status_code=404, detail="指定されたドキュメントは見つかりません")
 
     db.delete(db_document)
 
