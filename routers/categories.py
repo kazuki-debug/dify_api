@@ -5,7 +5,7 @@ from typing import List
 import database
 
 from models import Category
-from schemas import CategoryCreate, CategoryResponse
+from schemas import CategoryCreate, CategoryResponse, CategoryUpdate
 
 router = APIRouter()
 
@@ -34,3 +34,20 @@ async def get_categories(db: Session = Depends(database.get_db)):
     result = db.execute(statement)
     return result.scalars().all()
 
+@router.put("/{id}", response_model=CategoryResponse)
+async def update_category(
+    category_id: int,
+    category: CategoryUpdate,
+    db: Session = Depends(database.get_db),
+    #current_user: str = Depends(get_current_user)
+):
+    db_category = db.get(Category, category_id)
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+
+    db_category.name = category.name
+
+    db.commit()
+    db.refresh(db_category)
+
+    return db_category

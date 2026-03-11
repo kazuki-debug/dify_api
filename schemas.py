@@ -11,7 +11,11 @@ class CategoryResponse(CategoryCreate):
     class config:
         from_attributes = True
 
+class CategoryUpdate(BaseModel):
+    name: str
+
 class DocumentCreate(BaseModel):
     category_id: int
     title: str
     content: str
+
