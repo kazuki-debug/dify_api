@@ -18,6 +18,9 @@ class DocumentCreate(BaseModel):
     category_id: int
     title: str
     content: str
+    
+class DocumentTitle(BaseModel):
+    title: str
 
 class DocumentResponse(DocumentCreate):
     id: int

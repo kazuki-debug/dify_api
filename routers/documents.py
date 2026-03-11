@@ -10,18 +10,17 @@ from schemas import DocumentCreate, DocumentResponse
 router = APIRouter()
 
 @router.post("/", response_model=DocumentCreate)
-async def create_document(
+async def create_category(
     document: DocumentCreate,
     db: Session = Depends(database.get_db),
     #current_user: models.User = Depends(auth.get_current_user)
 ):
-    new_document = Document(**document.model_dump())
-    new_document.created_at = datetime.now()
-
-    db.add(new_document)
+    new_category = Document(**document.model_dump())
+    new_category.created_at = datetime.now()
+    db.add(new_category)
     db.commit()
-    db.refresh(new_document)
-    return new_document
+    db.refresh(new_category)
+    return new_category
 
 @router.get("/{id}", response_model=DocumentResponse)
 async def get_document(id :int, db: Session = Depends(database.get_db)):
