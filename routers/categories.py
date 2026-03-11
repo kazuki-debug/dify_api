@@ -51,3 +51,19 @@ async def update_category(
     db.refresh(db_category)
 
     return db_category
+
+@router.delete("/{id}", response_model=CategoryResponse)
+async def delete_category(
+    category_id: int,
+    db: Session = Depends(database.get_db),
+    #current_user: str = Depends(get_current_user)
+    ):
+    db_category = db.get(Category, category_id)
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+
+    db.delete(db_category)
+
+    db.commit()
+
+    return db_category
