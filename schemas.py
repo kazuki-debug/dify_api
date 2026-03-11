@@ -24,3 +24,14 @@ class DocumentResponse(DocumentCreate):
     
     class config:
         from_attributes = True
+
+class LogCreate(BaseModel):
+    query: str
+    category_id: int
+    result: int
+
+class LogResponse(LogCreate):
+    id: int
+    
+    class config:
+        from_attributes = True

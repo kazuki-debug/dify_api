@@ -16,3 +16,12 @@ class Document(Base):
     title = Column(VARCHAR, index=True)
     content = Column(Text)
     created_at = Column(DATETIME)
+
+class Searchlog(Base):
+    __tablename__ = "searchlogs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    query = Column(Text)
+    category_id = Column(Integer)
+    result = Column(Integer)
+    created_at = Column(DATETIME)
