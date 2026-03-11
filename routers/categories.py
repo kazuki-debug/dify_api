@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from typing import List
 import database
 
 from models import Category
-from schemas import CategoryCreate
+from schemas import CategoryCreate, CategoryResponse
 
 router = APIRouter()
 
@@ -19,4 +20,17 @@ async def create_category(
     db.commit()
     db.refresh(new_category)
     return new_category
+
+@router.get("/{id}", response_model=CategoryResponse)
+async def get_category(id :int, db: Session = Depends(database.get_db)):
+    db_category = db.get(Category, id)
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="指定された本は見つかりません")
+    return db_category
+
+@router.get("/", response_model=list[CategoryResponse])
+async def get_categories(db: Session = Depends(database.get_db)):
+    statement = select(Category)
+    result = db.execute(statement)
+    return result.scalars().all()
 
