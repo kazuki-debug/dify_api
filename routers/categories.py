@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import select
+from datetime import datetime
 
 import database
 
@@ -16,6 +17,7 @@ async def create_category(
     #current_user: models.User = Depends(auth.get_current_user)
 ):
     new_category = Category(**category.model_dump())
+    new_category.created_at = datetime.now()
     db.add(new_category)
     db.commit()
     db.refresh(new_category)
